@@ -12,16 +12,22 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// CORS ayarları
+// Temel CORS başlıklarını doğrudan ekle - hiçbir koşul olmadan
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept, Origin, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-header('Content-Type: application/json');
+header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization');
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Max-Age: 86400'); // 24 saat
 
-// Ön kontroller
+// Preflight OPTIONS isteklerini hemen yanıtla
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Content-Type: application/json');
+    http_response_code(200);
     exit(0);
 }
+
+// İçerik tipini belirle
+header('Content-Type: application/json');
 
 // Router'ı başlat
 require_once __DIR__ . '/../app/Routes/api.php'; 

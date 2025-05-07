@@ -1,0 +1,255 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "E-Ticaret API",
+    "description": "E-ticaret sitesi temel API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "auth",
+      "description": "Kimlik doğrulama işlemleri"
+    },
+    {
+      "name": "products",
+      "description": "Ürün işlemleri"
+    },
+    {
+      "name": "cart",
+      "description": "Sepet işlemleri"
+    },
+    {
+      "name": "orders",
+      "description": "Sipariş işlemleri"
+    }
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Kullanıcı kaydı",
+        "responses": {
+          "201": {
+            "description": "Başarılı kayıt"
+          },
+          "400": {
+            "description": "Hatalı istek"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Kullanıcı girişi",
+        "responses": {
+          "200": {
+            "description": "Başarılı giriş"
+          },
+          "400": {
+            "description": "Hatalı kimlik bilgileri"
+          }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "tags": ["auth"],
+        "summary": "Kullanıcı profili",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Profil bilgileri"
+          },
+          "401": {
+            "description": "Yetkisiz erişim"
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": ["products"],
+        "summary": "Ürünleri listele",
+        "responses": {
+          "200": {
+            "description": "Ürün listesi"
+          }
+        }
+      },
+      "post": {
+        "tags": ["products"],
+        "summary": "Ürün ekle",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "201": {
+            "description": "Ürün eklendi"
+          },
+          "401": {
+            "description": "Yetkisiz erişim"
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "tags": ["products"],
+        "summary": "Ürün detayı",
+        "responses": {
+          "200": {
+            "description": "Ürün detayları"
+          },
+          "404": {
+            "description": "Ürün bulunamadı"
+          }
+        }
+      },
+      "put": {
+        "tags": ["products"],
+        "summary": "Ürün güncelle",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Ürün güncellendi"
+          },
+          "401": {
+            "description": "Yetkisiz erişim"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["products"],
+        "summary": "Ürün sil",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Ürün silindi"
+          },
+          "401": {
+            "description": "Yetkisiz erişim"
+          }
+        }
+      }
+    },
+    "/cart": {
+      "get": {
+        "tags": ["cart"],
+        "summary": "Sepeti görüntüle",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Sepet içeriği"
+          },
+          "401": {
+            "description": "Yetkisiz erişim"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["cart"],
+        "summary": "Sepeti temizle",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Sepet temizlendi"
+          },
+          "401": {
+            "description": "Yetkisiz erişim"
+          }
+        }
+      }
+    },
+    "/cart/add": {
+      "post": {
+        "tags": ["cart"],
+        "summary": "Sepete ürün ekle",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Ürün sepete eklendi"
+          },
+          "401": {
+            "description": "Yetkisiz erişim"
+          }
+        }
+      }
+    },
+    "/orders": {
+      "get": {
+        "tags": ["orders"],
+        "summary": "Siparişleri listele",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Sipariş listesi"
+          },
+          "401": {
+            "description": "Yetkisiz erişim"
+          }
+        }
+      },
+      "post": {
+        "tags": ["orders"],
+        "summary": "Sipariş oluştur",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "201": {
+            "description": "Sipariş oluşturuldu"
+          },
+          "401": {
+            "description": "Yetkisiz erişim"
+          }
+        }
+      }
+    },
+    "/orders/{id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "tags": ["orders"],
+        "summary": "Sipariş detayı",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Sipariş detayları"
+          },
+          "401": {
+            "description": "Yetkisiz erişim"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+} 
